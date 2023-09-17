@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package authgrpc;
+
+option go_package = "github.com/valli0x/grpc-proto/auth-grpc/api";
+
+message Empty {}
+
+service Users {
+    rpc Create(CreateRequest) returns (Empty);          // Создание пользователя(1)(admin)
+    rpc Read(ReadRequest)     returns (ReadResponse);   // Выдача юзера по id(2)
+    rpc Update(UpdateRequest) returns (Empty);          // Изменение(3)(admin)
+    rpc List(ListRequest)     returns (ListResponse);   // Выдача списка пользователей(4)
+    rpc Delete(DeleteRequest) returns (Empty);          // Удаление профиля(5)(admin)
+}
+
+message CreateRequest {
+    User user = 1;
+    string password = 2;
+    Authorization basic = 3;
+}
+
+message ReadRequest {
+    string id = 1;
+    Authorization basic = 2;
+}
+
+message ReadResponse {
+    User user = 1;
+}
+
+message UpdateRequest {
+    User user = 1;
+    Authorization basic = 2;
+}
+
+message ListRequest {
+    Authorization basic = 1;
+}
+
+message ListResponse {
+    repeated User users = 1;
+}
+
+message DeleteRequest {
+    string id = 1;
+    Authorization basic = 3;
+}
+
+message User {
+    string email = 1;
+    string username = 2;
+}
+
+message Authorization {
+    string username = 1;
+    string password = 2;
+}
