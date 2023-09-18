@@ -10,22 +10,20 @@ service Users {
     rpc Create(CreateRequest) returns (CreateResponse); // Создание пользователя(1)(admin)
     rpc Read(ReadRequest)     returns (ReadResponse);   // Выдача юзера по id(2)
     rpc Update(UpdateRequest) returns (Empty);          // Изменение(3)(admin)
-    rpc List(ListRequest)     returns (ListResponse);   // Выдача списка пользователей(4)
+    rpc List(Empty)           returns (ListResponse);   // Выдача списка пользователей(4)
     rpc Delete(DeleteRequest) returns (Empty);          // Удаление профиля(5)(admin)
 }
 
 message CreateRequest {
     User user = 1;
-    Authorization basic = 3;
 }
 
 message CreateResponse {
-    User user = 1;
+    string id = 1;
 }
 
 message ReadRequest {
-    User user = 1;
-    Authorization basic = 2;
+   string id = 1;
 }
 
 message ReadResponse {
@@ -34,11 +32,6 @@ message ReadResponse {
 
 message UpdateRequest {
     User user = 1;
-    Authorization basic = 2;
-}
-
-message ListRequest {
-    Authorization basic = 1;
 }
 
 message ListResponse {
@@ -47,7 +40,6 @@ message ListResponse {
 
 message DeleteRequest {
     User user = 1;
-    Authorization basic = 3;
 }
 
 message User {
@@ -55,9 +47,4 @@ message User {
     string email = 2;
     string username = 3;
     string password = 4;
-}
-
-message Authorization {
-    string username = 1;
-    string password = 2;
 }

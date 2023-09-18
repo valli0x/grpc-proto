@@ -33,7 +33,7 @@ type UsersClient interface {
 	Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error)
 	Read(ctx context.Context, in *ReadRequest, opts ...grpc.CallOption) (*ReadResponse, error)
 	Update(ctx context.Context, in *UpdateRequest, opts ...grpc.CallOption) (*Empty, error)
-	List(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListResponse, error)
+	List(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*ListResponse, error)
 	Delete(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*Empty, error)
 }
 
@@ -72,7 +72,7 @@ func (c *usersClient) Update(ctx context.Context, in *UpdateRequest, opts ...grp
 	return out, nil
 }
 
-func (c *usersClient) List(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListResponse, error) {
+func (c *usersClient) List(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*ListResponse, error) {
 	out := new(ListResponse)
 	err := c.cc.Invoke(ctx, Users_List_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -97,7 +97,7 @@ type UsersServer interface {
 	Create(context.Context, *CreateRequest) (*CreateResponse, error)
 	Read(context.Context, *ReadRequest) (*ReadResponse, error)
 	Update(context.Context, *UpdateRequest) (*Empty, error)
-	List(context.Context, *ListRequest) (*ListResponse, error)
+	List(context.Context, *Empty) (*ListResponse, error)
 	Delete(context.Context, *DeleteRequest) (*Empty, error)
 	mustEmbedUnimplementedUsersServer()
 }
@@ -115,7 +115,7 @@ func (UnimplementedUsersServer) Read(context.Context, *ReadRequest) (*ReadRespon
 func (UnimplementedUsersServer) Update(context.Context, *UpdateRequest) (*Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
 }
-func (UnimplementedUsersServer) List(context.Context, *ListRequest) (*ListResponse, error) {
+func (UnimplementedUsersServer) List(context.Context, *Empty) (*ListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method List not implemented")
 }
 func (UnimplementedUsersServer) Delete(context.Context, *DeleteRequest) (*Empty, error) {
@@ -189,7 +189,7 @@ func _Users_Update_Handler(srv interface{}, ctx context.Context, dec func(interf
 }
 
 func _Users_List_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListRequest)
+	in := new(Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -201,7 +201,7 @@ func _Users_List_Handler(srv interface{}, ctx context.Context, dec func(interfac
 		FullMethod: Users_List_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UsersServer).List(ctx, req.(*ListRequest))
+		return srv.(UsersServer).List(ctx, req.(*Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
