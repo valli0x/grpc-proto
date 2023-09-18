@@ -7,7 +7,7 @@ option go_package = "github.com/valli0x/grpc-proto/auth-grpc/api";
 message Empty {}
 
 service Users {
-    rpc Create(CreateRequest) returns (Empty);          // Создание пользователя(1)(admin)
+    rpc Create(CreateRequest) returns (CreateResponse); // Создание пользователя(1)(admin)
     rpc Read(ReadRequest)     returns (ReadResponse);   // Выдача юзера по id(2)
     rpc Update(UpdateRequest) returns (Empty);          // Изменение(3)(admin)
     rpc List(ListRequest)     returns (ListResponse);   // Выдача списка пользователей(4)
@@ -16,12 +16,15 @@ service Users {
 
 message CreateRequest {
     User user = 1;
-    string password = 2;
     Authorization basic = 3;
 }
 
+message CreateResponse {
+    User user = 1;
+}
+
 message ReadRequest {
-    string id = 1;
+    User user = 1;
     Authorization basic = 2;
 }
 
@@ -43,13 +46,15 @@ message ListResponse {
 }
 
 message DeleteRequest {
-    string id = 1;
+    User user = 1;
     Authorization basic = 3;
 }
 
 message User {
-    string email = 1;
-    string username = 2;
+    string id = 1;
+    string email = 2;
+    string username = 3;
+    string password = 4;
 }
 
 message Authorization {

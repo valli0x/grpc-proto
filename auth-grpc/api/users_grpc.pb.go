@@ -30,7 +30,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UsersClient interface {
-	Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*Empty, error)
+	Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error)
 	Read(ctx context.Context, in *ReadRequest, opts ...grpc.CallOption) (*ReadResponse, error)
 	Update(ctx context.Context, in *UpdateRequest, opts ...grpc.CallOption) (*Empty, error)
 	List(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListResponse, error)
@@ -45,8 +45,8 @@ func NewUsersClient(cc grpc.ClientConnInterface) UsersClient {
 	return &usersClient{cc}
 }
 
-func (c *usersClient) Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*Empty, error) {
-	out := new(Empty)
+func (c *usersClient) Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error) {
+	out := new(CreateResponse)
 	err := c.cc.Invoke(ctx, Users_Create_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -94,7 +94,7 @@ func (c *usersClient) Delete(ctx context.Context, in *DeleteRequest, opts ...grp
 // All implementations must embed UnimplementedUsersServer
 // for forward compatibility
 type UsersServer interface {
-	Create(context.Context, *CreateRequest) (*Empty, error)
+	Create(context.Context, *CreateRequest) (*CreateResponse, error)
 	Read(context.Context, *ReadRequest) (*ReadResponse, error)
 	Update(context.Context, *UpdateRequest) (*Empty, error)
 	List(context.Context, *ListRequest) (*ListResponse, error)
@@ -106,7 +106,7 @@ type UsersServer interface {
 type UnimplementedUsersServer struct {
 }
 
-func (UnimplementedUsersServer) Create(context.Context, *CreateRequest) (*Empty, error) {
+func (UnimplementedUsersServer) Create(context.Context, *CreateRequest) (*CreateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
 func (UnimplementedUsersServer) Read(context.Context, *ReadRequest) (*ReadResponse, error) {
